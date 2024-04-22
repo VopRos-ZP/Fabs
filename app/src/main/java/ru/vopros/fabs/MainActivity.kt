@@ -58,11 +58,13 @@ class MainActivity : AppCompatActivity() {
             }.reversed()
             binding.menuList.removeAllViews()
             fabViews.forEach { fab ->
-                fab.setOnTouchListener(FABTouchListener {
-                    val newList = menuItems.value!!.toMutableList()
-                    newList.removeIf { it == fab.id }
-                    menuItems.value = newList
-                })
+                fab.post {
+                    fab.setOnTouchListener(FABTouchListener(fab.x) {
+                        val newList = menuItems.value!!.toMutableList()
+                        newList.removeIf { it == fab.id }
+                        menuItems.value = newList
+                    })
+                }
                 binding.menuList.addView(fab)
             }
         }
