@@ -13,7 +13,7 @@ class FABTouchListener(
     private var downX: Float = 0f
 
     private companion object {
-        const val MAX_DISTANCE = 1100
+        const val MAX_DISTANCE = 1000
         const val MIN_DISTANCE = 700
 
         fun inRange(x: Float): Boolean {
@@ -25,14 +25,10 @@ class FABTouchListener(
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                downX = v.x - event.rawX
-                Log.d("FABTouchListener", "start -> $startX")
-                Log.d("FABTouchListener", "raw -> ${event.rawX}")
-                Log.d("FABTouchListener", "down -> $downX")
-            }
+            MotionEvent.ACTION_DOWN -> downX = v.x - event.rawX
             MotionEvent.ACTION_UP -> {
                 val delta = event.rawX + downX
+                Log.d("FABTouchListener", "$delta")
                 val isNotInRange = !inRange(delta)
                 if (isNotInRange) {
                     onSwipe()
